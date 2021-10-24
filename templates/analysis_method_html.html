@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% if if_warn == 1 %}
+<script language="javascript"> //JavaScript脚本标注
+alert("数据选择数量不对");//在页面上弹出上联
+</script>
+{% endif %}
+
+<br> <a href="/analysis/{{ month_list }}" style="color:blue;font-size:14px">返回选择数据</a></br>
+
+{% for i in name %}
+<br> <a href="/analysis/{{ month_list }}/{{ check_list }}/{{ i.1 }}" style="color:blue;font-size:14px">{{ i.0 }}</a></br>
+<h>{{ i.2 }}</h>
+
+{% endfor %}
+
+</body>
+</html>

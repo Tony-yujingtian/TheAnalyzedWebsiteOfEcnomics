@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="height: 100%; margin: 0">
+       <div id="container" style="height: 80%"></div>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
+       <script type="text/javascript">
+var dom = document.getElementById("container");
+var myChart = echarts.init(dom);
+var app = {};
+{#var x_scatter={{ data_show_scatter.0.0|safe }};#}
+var y_scatter={{ data_show_scatter|safe }};
+var y_line={{ data_show_line|safe }};
+var is_category={{ is_category_value|safe }};
+var charts_canshu={{ chart_canshu|safe }};
+{#var se=[];#}
+{#for(var i=0;i<y_scatter.length;i++){#}
+{#    se.push({symbolSize: 20,data: y_scatter[0][1],type: 'scatter'})#}
+var y = new Object();
+y.scale=true;
+y.type='value';
+var x = new Object();
+x.scale=true;
+x.type=is_category;
+if(is_category=='category'){
+    x.data=y_scatter[0][0];
+}
+var se=[];
+var tmp_line=new Object();
+tmp_line={
+        symbolSize: 2,
+        data:y_line,
+        type: 'line'
+    };
+for(var i=0;i<y_scatter.length;i++){
+    var tmp_scatter=new Object();
+    tmp_scatter={
+        symbolSize: 10,
+        data:y_scatter[i][1],
+        type: 'scatter'
+    };
+    se.push(tmp_scatter);
+}
+se.push(tmp_line);
+option = null;
+option = {
+    title: {
+        text: charts_canshu[0][0],
+        subtext: '数据来自国家统计局',
+        left: 'center',
+        align: 'right'
+    },
+    xAxis: x,
+    yAxis: y,
+    series:se
+};
+;
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+       </script>
+
+<table border="1">
+{% for j in result %}
+    <tr>
+        {% for i in j %}
+            <th>{{ i }}</th>
+        {% endfor %}
+    </tr>
+
+{% endfor %}
+</table>
+
+{% ifnotequal choose.0|length 0 %}
+<form method="post" action="">
+    {% for j in choose %}
+        <h>{{ j.0 }}</h>
+        <select name="sel_value">
+            {# 这里我们遍历form表单中的SELVALUE这个字典,然后把key,value成对取出  #}
+            <option value="{{ j.2 }}">{{ j.2 }}</option>
+            {% for i in j.1 %}
+                <option value="{{ i }}">{{ i }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="提交"/>
+        {% csrf_token %}
+    {% endfor %}
+</form>
+
+{% endifnotequal %}
+</body>
+</html>

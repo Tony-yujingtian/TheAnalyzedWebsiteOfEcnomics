@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title> ҳ������ </title>
+<style type="text/css">
+#menu li {
+    list-style-type: none;
+    margin-left: 20px;
+}
+#menu ul {
+    margin: 0;
+    padding: 0;
+}
+#menu .mg {
+    width: 20px;
+    height: 20px;
+    font-style: 20px;
+    line-height: 20px;
+    text-align: center;
+    display: inline-block;
+    margin-left: -20px;
+}
+#menu .on {
+    transform: rotate(90deg);
+}
+#menu>ul ul {
+    display: none;
+}
+</style>
+</head>
+<body>
+<script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+<div id="menu">
+    <ul>
+        <li><a href="p1.html"> eeee</a></li>
+        {% for first in data1 %}
+            <li><span class="mg">m</span><a href="p3.html">{{ first.0 }}</a>
+                <ul>
+                    {% for second in first.1 %}
+                        <li><span class="mg">m</span><a href="p3.html">{{ second.0 }}</a>
+                            <ul>
+                                {% for third in second.1%}
+                                    <li><span class="mg">m</span><a href="p3.html">{{ third }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+        <li><a href="p1.html"> 1</a></li>
+        <li><span class="mg">m</span><a href="p2.html">3</a>
+            <ul>
+                <li><span class="mg">5</span><a href="p2-1.html">4</a>
+                    <ul>
+                        <li><a href="p2-1-1.html">2-1-1</a></li>
+                        <li><a href="p2-1-2.html">2-1-2</a></li>
+                    </ul>
+                </li>
+                <li><a href="p2-2.html">2-2</a></li>
+                <li><a href="p2-3.html">2-3</a></li>
+            </ul>
+        </li>
+        <li><span class="mg"></span><a href="p3.html"> 3</a>
+            <ul>
+                <li><a href="p3-1.html"> 3-1</a></li>
+                <li><a href="p3-2.html">3-2</a></li>
+                <li><a href="p3-3.html"> 3-3</a></li>
+            </ul>
+        </li>
+        <li><a href="p4.html"> 4</a></li>
+    </ul>
+</div>
+<script type="text/javascript">
+$(function(){
+    $("#menu").on("click", ".mg", function(event){
+        $(this).toggleClass("on").next().next().toggle();
+    });
+});
+</script>
+</body>
+</html>

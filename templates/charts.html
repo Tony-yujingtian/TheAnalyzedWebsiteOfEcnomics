@@ -1,0 +1,81 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head ><meta charset="utf-8">
+<title>charts</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load static %}
+<script src='{% static "js/highcharts.js" %}'></script>
+<!--<script src="../static/js/exporting.js"></script>--><!--下载按钮-->
+<!-- <script src="../static/js/series-label.js"></script>
+<script src="../static/js/oldie.js"></script>
+<script src="../static/js/highcharts-zh_CN.js"></script>-->
+
+</head>
+<body>
+
+<div id="container" style="max-width:800px;height:400px"></div>
+<script>
+        var data = [{%for i in chart_data%} {{i.data}} {%if forloop.last%} {%else%},{%endif%} {%endfor%}];
+
+var chart = Highcharts.chart('container', {
+    title: {
+        text: '折线图'
+    },
+    subtitle: {
+        text: '数据来源：国家统计局'
+    },
+    yAxis: {
+        title: {
+            text: '指数'
+        }
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+    plotOptions: {
+        series: {
+            label: {
+                connectorAllowed: false
+            },
+            pointStart: 2
+        }
+    },
+    series: [
+	{
+        name: '员工A',
+
+        data: data,
+		color:"#ff0000"
+    }, 
+
+	],
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+});
+</script>
+
+</div>
+
+{% for file in data %}
+    {% if file.len < file.max %}
+            <br> <a style="color:black;font-size:19px">{{file.name}}</a></br>
+    {% else %}
+            <br> <a href="{{file.number}}" style="color:blue;font-size:14px">......{{file.name}}</a></br>
+    {% endif %}
+{% endfor %}
+</body>
+</html>

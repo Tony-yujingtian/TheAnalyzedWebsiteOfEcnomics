@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title> analysis </title>
+<style type="text/css">
+#menu li {
+    list-style-type: none;
+    margin-left: 20px;
+}
+#menu ul {
+    margin: 0;
+    padding: 0;
+}
+#menu .mg {
+    width: 20px;
+    height: 20px;
+    font-style: 20px;
+    line-height: 20px;
+    text-align: center;
+    display: inline-block;
+    margin-left: -20px;
+    cursor:pointer;
+}
+#menu .on {
+    transform: rotate(90deg);
+}
+#menu>ul ul {
+    display: none;
+}
+</style>
+</head>
+<body>
+<script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+
+<form id="menu" method="POST" action="">{% csrf_token %}
+    <ul>
+        {% for first in data1 %}
+            {% if first.0.1 == '0'%}
+                <li><span class="mg">&rsaquo;</span><input type="checkbox" value="{{ first.0.2 }}" name="check_box_list" >{{ first.0.0 }}
+                <ul>
+                {% for first_ in first.0.3 %}
+                    <li><input type="checkbox" value="{{ first.0.2 }}&{{ first_.1 }}" name="check_box_list" >{{ first_.0 }}</li>
+                {% endfor %}
+                </ul>
+                </li>
+             {% else %}
+              <li><span class="mg">&rsaquo;</span><h>{{ first.0.0 }}</h>
+             {% endif %}
+                <ul>
+                    {% for second in first.1 %}
+                        {% if second.0.1 == '0'%}
+                            <li><span class="mg">&rsaquo;</span><h>{{ second.0.0 }}</h>
+                            <ul>
+                                {% for second_ in second.0.3 %}
+                                <li><input type="checkbox" value="{{ second.0.2}}&{{second_.1 }}" name="check_box_list" >{{ second_.0 }}</li>
+                                {% endfor %}
+                            </ul>
+                            </li>
+                        {% else %}
+                        <li><span class="mg">&rsaquo;</span><h>{{ second.0.0 }}</h>
+                        {% endif %}
+                            <ul>
+                                {% for third in second.1%}
+                                    {% if third.1 == '0'%}
+                                        <li><span class="mg">&rsaquo;</span><h>{{ third.0 }}</h>
+                                        <ul>
+                                        {% for third_ in third.3 %}
+                                        <li><input type="checkbox" value="{{ third.2 }}&{{ third_.1 }}" name="check_box_list" >{{ third_.0 }}</li>
+                                        {% endfor %}
+                                        </ul>
+                                    </li>
+                                    {% else %}
+                                    <li><span class="mg">&rsaquo;</span><h>{{ third.0 }}</h>
+                                    {% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+
+    </ul>
+<input type="submit" value="提交"/>
+
+</form>
+<script type="text/javascript">
+$(function(){
+    $("#menu").on("click", ".mg", function(event){
+        $(this).toggleClass("on").next().next().toggle();
+    });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

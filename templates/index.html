@@ -1,0 +1,7 @@
+{% for file in data %}
+    {% if file.len < file.max %}
+            <br> <a style="color:black;font-size:19px">{{file.name}}</a></br>
+    {% else %}
+            <br> <a href="{{file.number}}" style="color:blue;font-size:14px">......{{file.name}}</a></br>
+    {% endif %}
+{% endfor %}
